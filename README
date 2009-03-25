@@ -3,7 +3,7 @@ ROL is ' Ray-uh Light '
 yeh.. so whatever, Madonna grows less hot by the day
 and we have to compensate..
 
-basically this is a simple project to aquaint myself
+basically this is a simple project to acquaint myself
 with reia, the up and coming badasser of them all
 
 Install:
@@ -26,6 +26,8 @@ Example:
 
 TODO:
   * implement behave: http://github.com/pirj/behave/tree/master
+  * implement some sort of text/markup/css (haml?) handler... prob
+    go look at ryan for answers..
   * maybe transfer to leex/yecc for superior grammar based source 
     parsing?
   * cleanup css

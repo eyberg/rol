@@ -3,6 +3,7 @@ load("../reia/lib/file.re")
 class StringX
   def initialize(var)
     @txt = var
+    @code = ""
     @body = "<html><head><link type='text/css' rel='stylesheet' media='screen' href='main.css'/></head><body><script>function flipit(id) { varel = document.getElementById(id); if(varel.style.display=='') { varel.style.display='none'; } else { varel.style.display = ''; }}</script><div class='header'><center><img src='reia.png'></center></div><br>"
   end
 
@@ -123,7 +124,7 @@ else
     end
 
     pcode = so.code()
-    so.setcode("#{pcode} <br> #{spos[i]}")
+    so.setcode("#{pcode} <br> #{spos[i].to_list().to_string()}")
   }
 
   body = so.body()
