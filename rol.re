@@ -1,63 +1,60 @@
 load("../reia/lib/file.re")
 
-class StringX
+# helper class for the doc project..
+# this has evolved from a string class
+# that I wanted for helper methods like
+# substr and the like
+class Rol
+
+  # class instantiation
   def initialize(var)
-    @txt = var
+    dt = datetime()
     @code = ""
-    @body = "<html><head><link type='text/css' rel='stylesheet' media='screen' href='main.css'/></head><body><script>function flipit(id) { varel = document.getElementById(id); if(varel.style.display=='') { varel.style.display='none'; } else { varel.style.display = ''; }}</script><div class='header'><center><img src='reia.png'></center></div><br>"
+    @body = "<html><head><link type='text/css' rel='stylesheet' media='screen' href='main.css'/></head><body><script>function flipit(id) { varel = document.getElementById(id); if(varel.style.display=='') { varel.style.display='none'; } else { varel.style.display = ''; }}</script><div class='header'><center><img src='reia.png'></center><div class='hlink'><a href=\"http://wiki.reia-lang.org/wiki/Reia_Programming_Language\">Reia WebSite</a></div><div class='datetime'>Generated: #{dt}</div><div class='clearboth'></div></div><br>"
   end
 
+  # getter for code class instance var
   def code
     @code
   end
 
+  # setter for code class instance var
   def setcode(stuff)
     @code = stuff
   end
 
+  # getter for body class instance var
+  # until we do something w/haml or whatever
+  # this holds the generated html markup
   def body
     @body
   end
 
-  def txt 
-    @txt
-  end
-
+  # setter for markup
   def setbody(stuff)
     @body = "#{@body} #{stuff}"
   end
 
-  def settxt(stuff)
-    @txt = stuff
-  end
-
-  #doesn't support multi-byte yet
-  def length
-    @txt.to_list().size()
-  end
-
-  # same thing as length but no multi-byte support
-  def size
-    @txt.to_list().size()
-  end
-
+  # shorthand for erlang's substring; note that 'end' is
+  # reserved in Reia
   def substr(string, top, bot)
     string::substr(string.to_list(), top, bot).to_string()
   end
 
-  def to_s(list)
-    blah = io::format(list)
-  end
-
+  # return the position of first occurence of match in string
+  # overloads erlang's string::str() method
   def startpos(string, match)
     string::str(string.to_list(), match.to_list())
   end
 
+  # splits string into a list of tokens delimited by delim
+  # overloads elrang's string::tokens() method 
   def split(string, delim)
     list = string::tokens(string.to_list(), delim.to_list())
   end
 
   # extract basename from filename
+  # takes out directory path (like '.../reia/lib/')
   def basename(name)
     fsize = name.to_list().size()
     rsize = fsize - 2
@@ -68,6 +65,16 @@ class StringX
     rfile = blah[bsize].to_string()
   end
 
+  # pull out erlang datetime
+  def datetime
+    date = erlang::date()
+    time = erlang::time()
+    blah = "#{date.to_s()} #{time.to_s()}"
+  end
+
+  # extracts pathname from System.args
+  # basically just removes the brackets..
+  # not sure what's going on there..
   def pathname(name)
     fsize = name.to_list().size()
     rsize = fsize - 2
@@ -76,14 +83,14 @@ class StringX
 
 end
 
-so = StringX("asdf")
+rol = Rol("asdf")
 
 file = System.args().inspect()
 
 if file == "[]"
   puts("Usage:\r\n reia file.re")
 else
-  path = so.pathname(file)
+  path = rol.pathname(file)
 
   try
     blah = File.read(path)
@@ -92,42 +99,42 @@ else
     System.halt()
   end
 
-  spos = so.split(blah, "\n")
+  spos = rol.split(blah, "\n")
 
-  rfile = so.basename(file)
+  rfile = rol.basename(file)
 
   range = 0..spos.size()
   range.map{ |i|
-    mod = so.startpos(spos[i], "module")
-    defi = so.startpos(spos[i], "def")
-    claz = so.startpos(spos[i], "class")
+    mod = rol.startpos(spos[i], "module")
+    defi = rol.startpos(spos[i], "def")
+    claz = rol.startpos(spos[i], "class")
 
-    if mod > 0
+     if mod > 0
       line = spos[i].to_string()
-      code = so.code()
-      so.setbody("<div onclick=\"flipit('m#{i}');\"><b>Module:</b> #{line}</div><br><div id=\"m#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-      so.setcode("")
+      code = rol.code()
+      rol.setbody("<div class='subheader' onclick=\"flipit('m#{i}');\"><b>Module:</b> #{line}</div><br><div id=\"m#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+      rol.setcode("")
     end
 
     if defi > 0
       line = spos[i].to_string()
-      code = so.code()
-      so.setbody("<div onclick=\"flipit('d#{i}');\"><b>Method:</b> #{line}</div><br><div id=\"d#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-      so.setcode("")
+      code = rol.code()
+      rol.setbody("<div class='subheader' onclick=\"flipit('d#{i}');\"><b>Method:</b> #{line}</div><br><div id=\"d#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+      rol.setcode("")
     end
 
     if claz > 0
       line = spos[i].to_string()
-      code = so.code()
-      so.setbody("<div onclick=\"flipit('c#{i}');\"><b>Class:</b> #{line}</div><br><div id=\"c#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-      so.setcode("")
+      code = rol.code()
+      rol.setbody("<div class='subheader' onclick=\"flipit('c#{i}');\"><b>Class:</b> #{line}</div><br><div id=\"c#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+      rol.setcode("")
     end
 
-    pcode = so.code()
-    so.setcode("#{pcode} <br> #{spos[i].to_list().to_string()}")
-  }
+   pcode = rol.code()
+   rol.setcode("#{pcode} <br> #{spos[i].to_list().to_string()}")
+ }
 
-  body = so.body()
+  body = rol.body()
 
   File.write("#{rfile}.html", "#{body}")
 end

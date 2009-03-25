@@ -24,12 +24,19 @@ Example:
   
   reia rol.re ../reia/lib/tcpsocket.re
 
-TODO:
+Testing:
+
+  Eventually we'll want to get behave testing all of our stuff
+and be able to run this against itself -- however I'm tired and
+I'm drunk and I'm going to bed.
+
+Todo:
+  * need to put some smarter matchers in for identifying proper
+    structures -- maybe transfer to leex/yecc for superior grammar
+    based source parsing?
   * implement behave: http://github.com/pirj/behave/tree/master
   * implement some sort of text/markup/css (haml?) handler... prob
     go look at ryan for answers..
-  * maybe transfer to leex/yecc for superior grammar based source 
-    parsing?
   * cleanup css
   * cleanup homebrew classes
   * support directories for multiple source files at once

@@ -7,6 +7,26 @@ body  {
   background-color: #00aaff;
 }
 
+.hlink {
+  float: left;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.datetime {
+  float: right;
+  font-size: 11px;
+}
+
+.clearboth {
+  clear: both;
+}
+
+.subheader {
+  cursor: pointer;
+  border: thin solid #000;
+}
+
 .codeblock {
   background-color: #f3f7fb;
   border: 1px solid #ccdfef;
