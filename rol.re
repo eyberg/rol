@@ -78,44 +78,55 @@ end
 so = StringX("asdf")
 
 file = System.args().inspect()
-path = so.pathname(file)
 
-blah = File.read(path)
-spos = so.split(blah, "\n")
+if file == "[]"
+  puts("Usage:\r\n reia file.re")
+else
+  path = so.pathname(file)
 
-rfile = so.basename(file)
-
-range = 0..spos.size()
-range.map{ |i|
-  mod = so.startpos(spos[i], "module")
-  defi = so.startpos(spos[i], "def")
-  claz = so.startpos(spos[i], "class")
-
-  if mod > 0
-    line = spos[i].to_string()
-    code = so.code()
-    so.setbody("<div onclick=\"flipit('m#{i}');\"><b>Module:</b> #{line}</div><br><div id=\"m#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-    so.setcode("")
+  try
+    blah = File.read(path)
+  catch ex
+    puts("Cant find file")
+    System.halt()
   end
 
-  if defi > 0
-    line = spos[i].to_string()
-    code = so.code()
-    so.setbody("<div onclick=\"flipit('d#{i}');\"><b>Method:</b> #{line}</div><br><div id=\"d#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-    so.setcode("")
-  end
+  spos = so.split(blah, "\n")
 
-  if claz > 0
-    line = spos[i].to_string()
-    code = so.code()
-    so.setbody("<div onclick=\"flipit('c#{i}');\"><b>Class:</b> #{line}</div><br><div id=\"c#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-    so.setcode("")
-  end
+  rfile = so.basename(file)
 
-  pcode = so.code()
-  so.setcode("#{pcode} <br> #{spos[i]}")
-}
+  range = 0..spos.size()
+  range.map{ |i|
+    mod = so.startpos(spos[i], "module")
+    defi = so.startpos(spos[i], "def")
+    claz = so.startpos(spos[i], "class")
 
-body = so.body()
+    if mod > 0
+      line = spos[i].to_string()
+      code = so.code()
+      so.setbody("<div onclick=\"flipit('m#{i}');\"><b>Module:</b> #{line}</div><br><div id=\"m#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+      so.setcode("")
+    end
 
-File.write("#{rfile}.html", "#{body}")
+    if defi > 0
+      line = spos[i].to_string()
+      code = so.code()
+      so.setbody("<div onclick=\"flipit('d#{i}');\"><b>Method:</b> #{line}</div><br><div id=\"d#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+      so.setcode("")
+    end
+
+    if claz > 0
+      line = spos[i].to_string()
+      code = so.code()
+      so.setbody("<div onclick=\"flipit('c#{i}');\"><b>Class:</b> #{line}</div><br><div id=\"c#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+      so.setcode("")
+    end
+
+    pcode = so.code()
+    so.setcode("#{pcode} <br> #{spos[i]}")
+  }
+
+  body = so.body()
+
+  File.write("#{rfile}.html", "#{body}")
+end
