@@ -3,7 +3,15 @@ load("../reia/lib/file.re")
 class StringX
   def initialize(var)
     @txt = var
-    @body = "<html><body><center><img src='reia.png'></center><br>"
+    @body = "<html><head><link type='text/css' rel='stylesheet' media='screen' href='main.css'/></head><body><script>function flipit(id) { varel = document.getElementById(id); if(varel.style.display=='') { varel.style.display='none'; } else { varel.style.display = ''; }}</script><div class='header'><center><img src='reia.png'></center></div><br>"
+  end
+
+  def code
+    @code
+  end
+
+  def setcode(stuff)
+    @code = stuff
   end
 
   def body
@@ -85,18 +93,27 @@ range.map{ |i|
 
   if mod > 0
     line = spos[i].to_string()
-    so.setbody("<b>Module:</b> #{line}<br><br>")
+    code = so.code()
+    so.setbody("<div onclick=\"flipit('m#{i}');\"><b>Module:</b> #{line}</div><br><div id=\"m#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+    so.setcode("")
   end
 
   if defi > 0
     line = spos[i].to_string()
-    so.setbody("<b>Method:</b> #{line}<br><br>")
+    code = so.code()
+    so.setbody("<div onclick=\"flipit('d#{i}');\"><b>Method:</b> #{line}</div><br><div id=\"d#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+    so.setcode("")
   end
 
   if claz > 0
     line = spos[i].to_string()
-    so.setbody("<b>Class:</b> #{line}<br><br>")
+    code = so.code()
+    so.setbody("<div onclick=\"flipit('c#{i}');\"><b>Class:</b> #{line}</div><br><div id=\"c#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
+    so.setcode("")
   end
+
+  pcode = so.code()
+  so.setcode("#{pcode} <br> #{spos[i]}")
 }
 
 body = so.body()

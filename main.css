@@ -1,0 +1,14 @@
+body  {
+  background-color: #dedede;
+}
+
+.header {
+  border: thin dashed #000;
+  background-color: #00aaff;
+}
+
+.codeblock {
+  background-color: #f3f7fb;
+  border: 1px solid #ccdfef;
+  font-size: 10px;
+}
