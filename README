@@ -1,0 +1,33 @@
+ROL is ' Ray-uh Light '
+
+yeh.. so whatever, Madonna grows less hot by the day
+and we have to compensate..
+
+basically this is a simple project to aquaint myself
+with reia, the up and coming badasser of them all
+
+Install:
+
+  None. That is of course as long as you have erlang and reia
+  installed. No?? Bad Monkey!
+
+  sudo apt-get install erlang
+  git clone git://github.com/tarcieri/reia.git
+  cd reia; rake; sudo rake install
+
+Example:
+
+  Let's say we want to document the stdlib tcpsocket class.
+  All we need to do is pull out rol and execute:
+  (notice that I have not yet done ANY user-defined paths
+    so watch yourself before you break yourself)
+  
+  reia rol.re ../reia/lib/tcpsocket.re
+
+TODO:
+  * implement behave: http://github.com/pirj/behave/tree/master
+  * maybe transfer to leex/yecc for superior grammar based source 
+    parsing?
+  * cleanup css
+  * cleanup homebrew classes
+  * support directories for multiple source files at once
