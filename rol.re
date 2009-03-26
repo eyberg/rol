@@ -10,6 +10,7 @@ class Rol
   def initialize(var)
     dt = datetime()
     @code = ""
+    @cbegin = 0
     @body = "<html><head><link type='text/css' rel='stylesheet' media='screen' href='main.css'/></head><body><script>function flipit(id) { varel = document.getElementById(id); if(varel.style.display=='') { varel.style.display='none'; } else { varel.style.display = ''; }}</script><div class='header'><center><img src='reia.png'></center><div class='hlink'><a href=\"http://wiki.reia-lang.org/wiki/Reia_Programming_Language\">Reia WebSite</a></div><div class='datetime'>Generated: #{dt}</div><div class='clearboth'></div></div><br>"
   end
 
@@ -21,6 +22,14 @@ class Rol
   # setter for code class instance var
   def setcode(stuff)
     @code = stuff
+  end
+
+  def setcbegin(val)
+    @cbegin = val
+  end
+
+  def cbegin
+    @cbegin
   end
 
   # getter for body class instance var
@@ -109,25 +118,40 @@ else
     defi = rol.startpos(spos[i], "def")
     claz = rol.startpos(spos[i], "class")
 
-     if mod > 0
+    if mod > 0
+      if rol.cbegin() > 0
+        code = rol.code()
+        rol.setbody("#{code}</div>")
+        rol.setcode("")
+      end
+ 
       line = spos[i].to_string()
-      code = rol.code()
-      rol.setbody("<div class='subheader' onclick=\"flipit('m#{i}');\"><b>Module:</b> #{line}</div><br><div id=\"m#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-      rol.setcode("")
+      rol.setbody("<div class='subheader' onclick=\"flipit('m#{i}');\"><b>Module:</b> #{line}</div><br><div id=\"m#{i}\" class='codeblock' style='display: none;'>")
+      rol.setcbegin(1)
     end
 
     if defi > 0
+      if rol.cbegin() > 0
+        code = rol.code()
+        rol.setbody("#{code}</div>")
+        rol.setcode("")
+      end
+ 
       line = spos[i].to_string()
-      code = rol.code()
-      rol.setbody("<div class='subheader' onclick=\"flipit('d#{i}');\"><b>Method:</b> #{line}</div><br><div id=\"d#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-      rol.setcode("")
+      rol.setbody("<div class='subheader' onclick=\"flipit('d#{i}');\"><b>Method:</b> #{line}</div><br><div id=\"d#{i}\" class='codeblock' style='display: none;'>")
+      rol.setcbegin(1)
     end
 
     if claz > 0
+      if rol.cbegin() > 0
+        code = rol.code()
+        rol.setbody("#{code}</div>")
+        rol.setcode("")
+      end
+
       line = spos[i].to_string()
-      code = rol.code()
-      rol.setbody("<div class='subheader' onclick=\"flipit('c#{i}');\"><b>Class:</b> #{line}</div><br><div id=\"c#{i}\" class='codeblock' style='display: none;'>#{code}</div>")
-      rol.setcode("")
+      rol.setbody("<div class='subheader' onclick=\"flipit('c#{i}');\"><b>Class:</b> #{line}</div><br><div id=\"c#{i}\" class='codeblock' style='display: none;'>")
+      rol.setcbegin(1)
     end
 
    pcode = rol.code()
