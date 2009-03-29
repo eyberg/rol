@@ -25,6 +25,8 @@ body  {
 .subheader {
   cursor: pointer;
   border: thin solid #000;
+  max-width: 400px;
+  background-color: #00aaff;
 }
 
 .codeblock {
